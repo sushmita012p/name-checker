@@ -73,7 +73,7 @@
 
     .krishna-image {
       display: none;
-      width: 150px;
+      width: 300px; /* Increased image size */
       margin-top: 30px;
     }
 
@@ -82,6 +82,13 @@
       font-size: 1.5em;
       margin-top: 20px;
       color: #4B0082;
+    }
+
+    /* Angry emoji style */
+    #angryEmoji {
+      display: none;
+      width: 50px;
+      margin-top: 10px;
     }
 
     @keyframes float {
@@ -111,8 +118,8 @@
 <body>
   <div class="box">
     <h1>💖 What's my name (for you)? 💖</h1>
-    <button onclick="wrongAnswer()">Sushmita</button>
-    <button onclick="wrongAnswer()">Friend 😒</button>
+    <button onclick="wrongAnswer('sushmita')">Sushmita</button>
+    <button onclick="wrongAnswer('friend')">Friend 😒</button>
     <button onclick="showInput()">What you used to call me ❤️</button>
 
     <div id="nameInputBox">
@@ -127,6 +134,9 @@
     <img id="krishna" class="krishna-image" src="krishna.jpeg" alt="Krishna">
     <div id="krishnaMessage" class="krishna-message">Congratulations, you have passed! 🎉</div>
 
+    <!-- Angry emoji image -->
+    <img id="angryEmoji" src="abc.jpg" alt="Angry Emoji">
+
     <audio id="fluteSound" src="music.mp3" preload="auto"></audio>
   </div>
 
@@ -136,14 +146,29 @@
       "sanu", "mutu", "maya", "chunumunu"
     ];
 
-    function wrongAnswer() {
-      document.getElementById('message').textContent = "Nope! That’s not special 😠";
-      document.getElementById('emoji').textContent = "😤";
-      document.getElementById('message').style.display = 'block';
-      document.getElementById('emoji').style.display = 'block';
-      document.getElementById('krishna').style.display = 'none';
-      document.getElementById('krishnaMessage').style.display = 'none';
-      removeFloatingFeathers();
+    function wrongAnswer(type) {
+      const msg = document.getElementById('message');
+      const emo = document.getElementById('emoji');
+      const angryEmoji = document.getElementById('angryEmoji');
+      const krishnaImage = document.getElementById('krishna');
+      const krishnaMessage = document.getElementById('krishnaMessage');
+
+      if (type === 'sushmita') {
+        msg.textContent = "Nope! That’s not special 😠";
+        emo.textContent = "😤";
+        angryEmoji.style.display = 'block';
+        krishnaImage.style.display = 'none';
+        krishnaMessage.style.display = 'none';
+      } else if (type === 'friend') {
+        msg.textContent = "Yeah, good friend! 😄";
+        emo.textContent = "😊";
+        angryEmoji.style.display = 'none';
+        krishnaImage.style.display = 'none';
+        krishnaMessage.style.display = 'none';
+      }
+
+      msg.style.display = 'block';
+      emo.style.display = 'block';
     }
 
     function showInput() {
@@ -157,6 +182,7 @@
       const flute = document.getElementById('fluteSound');
       const krishnaImage = document.getElementById('krishna');
       const krishnaMessage = document.getElementById('krishnaMessage');
+      const angryEmoji = document.getElementById('angryEmoji');
 
       if (cuteNames.includes(input)) {
         msg.textContent = "Awww... you remember 🥰 There are many names, but it's so sweet that you remembered one!";
@@ -168,6 +194,7 @@
         flute.play(); 
         krishnaImage.style.display = 'block'; 
         krishnaMessage.style.display = 'block'; 
+        angryEmoji.style.display = 'none';
       } else {
         msg.textContent = "Nooo... that's not it 😢";
         emo.textContent = "💔";
@@ -175,6 +202,7 @@
         emo.style.display = 'block';
         krishnaImage.style.display = 'none'; 
         krishnaMessage.style.display = 'none'; 
+        angryEmoji.style.display = 'none'; 
         removeFloatingFeathers(); 
       }
     }
