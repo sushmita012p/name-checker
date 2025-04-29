@@ -65,11 +65,23 @@
       width: 200px;
     }
 
-    .heart {
+    .heart, .feather {
       position: fixed;
-      color: #ff69b4;
       font-size: 24px;
       animation: float 4s linear infinite;
+    }
+
+    .krishna-image {
+      display: none;
+      width: 150px;
+      margin-top: 30px;
+    }
+
+    .krishna-message {
+      display: none;
+      font-size: 1.5em;
+      margin-top: 20px;
+      color: #4B0082;
     }
 
     @keyframes float {
@@ -82,11 +94,23 @@
         opacity: 0;
       }
     }
+
+    @keyframes featherFloat {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0.5;
+      }
+    }
+
   </style>
 </head>
 <body>
   <div class="box">
-    <h1>💖 What's my name (for *you*)? 💖</h1>
+    <h1>💖 What's my name (for you)? 💖</h1>
     <button onclick="wrongAnswer()">Sushmita</button>
     <button onclick="wrongAnswer()">Friend 😒</button>
     <button onclick="showInput()">What you used to call me ❤️</button>
@@ -99,11 +123,16 @@
 
     <div id="message" class="message"></div>
     <div id="emoji" class="emoji"></div>
+
+    <img id="krishna" class="krishna-image" src="krishna.jpeg" alt="Krishna">
+    <div id="krishnaMessage" class="krishna-message">Congratulations, you have passed! 🎉</div>
+
+    <audio id="fluteSound" src="music.mp3" preload="auto"></audio>
   </div>
 
   <script>
     const cuteNames = [
-      "suse", "susey", "sushey", "baby", "beby", "bebu",
+      "sushey", "baby", "babe", "baba",
       "sanu", "mutu", "maya", "chunumunu"
     ];
 
@@ -112,6 +141,9 @@
       document.getElementById('emoji').textContent = "😤";
       document.getElementById('message').style.display = 'block';
       document.getElementById('emoji').style.display = 'block';
+      document.getElementById('krishna').style.display = 'none';
+      document.getElementById('krishnaMessage').style.display = 'none';
+      removeFloatingFeathers();
     }
 
     function showInput() {
@@ -122,18 +154,28 @@
       const input = document.getElementById('nickname').value.trim().toLowerCase();
       const msg = document.getElementById('message');
       const emo = document.getElementById('emoji');
+      const flute = document.getElementById('fluteSound');
+      const krishnaImage = document.getElementById('krishna');
+      const krishnaMessage = document.getElementById('krishnaMessage');
 
       if (cuteNames.includes(input)) {
-        msg.textContent = "Awww... you remember 🥰";
+        msg.textContent = "Awww... you remember 🥰 There are many names, but it's so sweet that you remembered one!";
         emo.textContent = "💖💖💖";
         msg.style.display = 'block';
         emo.style.display = 'block';
         floatHearts();
+        floatFeathers();
+        flute.play(); 
+        krishnaImage.style.display = 'block'; 
+        krishnaMessage.style.display = 'block'; 
       } else {
         msg.textContent = "Nooo... that's not it 😢";
         emo.textContent = "💔";
         msg.style.display = 'block';
         emo.style.display = 'block';
+        krishnaImage.style.display = 'none'; 
+        krishnaMessage.style.display = 'none'; 
+        removeFloatingFeathers(); 
       }
     }
 
@@ -151,7 +193,26 @@
         }, 4000);
       }
     }
+
+    function floatFeathers() {
+      for (let i = 0; i < 10; i++) {
+        const feather = document.createElement("div");
+        feather.classList.add("feather");
+        feather.style.left = Math.random() * 100 + "vw";
+        feather.style.animationDuration = (Math.random() * 2 + 3) + "s";
+        feather.innerHTML = "<img src='feather.jpeg' alt='feather' style='width: 40px; height: auto;'>";
+        document.body.appendChild(feather);
+
+        setTimeout(() => {
+          feather.remove();
+        }, 4000);
+      }
+    }
+
+    function removeFloatingFeathers() {
+      const feathers = document.querySelectorAll(".feather");
+      feathers.forEach(feather => feather.remove());
+    }
   </script>
 </body>
 </html>
-
